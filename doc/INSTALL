@@ -1,0 +1,42 @@
+Create and configure instance:
+Create EC2 instance ci
+Create Elastic IP and associate
+Create A record for ci.schweisguth.org resolving to Elastic IP
+In your development environment:
+$ civilize-ec2-instance/bin/civilize ci
+Copy the previous installation of TeamCity's .BuildServer/config/database.properties to files/ec2-user/lib/TeamCity-config and update as necessary
+Copy lib/TeamCity-config/*.yml from the previous installation to this repo
+$ bin/push-to-ec2-instance
+$ ssh ci sudo reboot # to pick up time zone change 
+
+Install TeamCity and dependencies:
+Get JRE rpm from https://www.oracle.com/java/technologies/javase-jre8-downloads.html
+/usr/local/src # yum localinstall -y jre-8u291-linux-x64.rpm
+# yum install -y git
+# yum install -y fontconfig # required by phantomjs
+# /usr/local/lib/install-mysql-client
+$ ~/lib/install-ruby
+~/src $ wget https://download-cf.jetbrains.com/teamcity/TeamCity-2020.2.4.tar.gz
+~/lib $ tar xf ../src/TeamCity-2020.2.4.tar.gz
+
+Create database:
+Create RDS parameter group mysql56-utf8mb4 with the following parameters
+  init_connect                          SET NAMES utf8mb4; SET collation_connection = utf8mb4_unicode_ci
+  character_set_server                  utf8mb4
+  collation_server                      utf8mb4_unicode_ci
+  skip-character-set-client-handshake   1
+Create RDS instance ci-database
+  Use the parameter group just created
+Edit ci-database security group
+Remove inbound rule allowing mysql connection from browser IP range
+Add inbound rule allowing mysql connection from ci internal IP range
+  TODO use a role which identifies the EC2 instance rather than the CIDR block containing its IP
+$ mysql -hci-database.c6n3e1wakxyr.us-west-2.rds.amazonaws.com -uroot -p < lib/create-ci-databases.sql
+
+Restore TeamCity from backup:
+$ md ~/.BuildServer
+Copy most recent backup from previous installation
+$ ~/lib/TeamCity/bin/maintainDB.sh restore -A ~/.BuildServer -F ~/backup_20210514_084544.zip -T ~/lib/TeamCity-config/database.properties
+$ rm backup_20210514_084544.zip
+$ ~/lib/TeamCity/bin/runAll.sh start
+Under Agents, disable disconnected agents created by backing up and restoring
