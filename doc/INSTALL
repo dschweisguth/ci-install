@@ -2,8 +2,7 @@ Create and configure instance:
 Create EC2 instance ci
 Create Elastic IP and associate
 Create A record for ci.schweisguth.org resolving to Elastic IP
-In your development environment:
-$ civilize-ec2-instance/bin/civilize ci
+In this repo:
 Copy the previous installation of TeamCity's .BuildServer/config/database.properties to files/ec2-user/lib/TeamCity-config and update as necessary
 Copy lib/TeamCity-config/*.yml from the previous installation to this repo
 $ bin/push-to-ec2-instance
