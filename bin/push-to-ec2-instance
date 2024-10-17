@@ -1,5 +1,5 @@
 #!/bin/bash -e
-host=ci
+host=ci.schweisguth.org
 local_files=`dirname $0`/../files
 remote_root_files=/tmp/ci-install-root-files
 
