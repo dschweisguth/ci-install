@@ -9,14 +9,14 @@ $ bin/push-to-ec2-instance
 $ ssh ci sudo reboot # to pick up time zone change 
 
 Install TeamCity and dependencies:
-Get JRE rpm from https://www.oracle.com/java/technologies/javase-jre8-downloads.html
-/usr/local/src # yum localinstall -y jre-8u291-linux-x64.rpm
+# yum install java-17-amazon-corretto-headless
 # yum install -y git
 # yum install -y fontconfig # required by phantomjs
 # /usr/local/lib/install-mysql-client
 $ ~/lib/install-ruby
 ~/src $ wget https://download-cf.jetbrains.com/teamcity/TeamCity-2020.2.4.tar.gz
 ~/lib $ tar xf ../src/TeamCity-2020.2.4.tar.gz
+$ rm ../src/TeamCity-2020.2.4.tar.gz # it's quite large
 
 Create database:
 Create RDS instance ci-database
