@@ -11,7 +11,11 @@ $ ssh ci sudo reboot # to pick up time zone change
 Install TeamCity and dependencies:
 # yum install java-17-amazon-corretto-headless
 # yum install -y git
-# yum install -y fontconfig # required by phantomjs
+# amazon-linux-extras install firefox
+/usr/local/src # wget https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux64.tar.gz
+/usr/local/src # tar xf geckodriver-v0.35.0-linux64.tar.gz
+/usr/local/src # chmod 755 geckodriver
+/usr/local/src # mv geckodriver /usr/local/bin
 # /usr/local/lib/install-mysql-client
 $ ~/lib/install-ruby
 ~/src $ wget https://download-cf.jetbrains.com/teamcity/TeamCity-2020.2.4.tar.gz
