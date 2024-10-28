@@ -11,5 +11,5 @@ hash -r
 eval "$(rbenv init - bash)"
 rbenv install 2.6.10
 rbenv global 2.6.10
-gem update --system
+gem update --system 3.4.22
 gem install bundler --version 1.17.3
