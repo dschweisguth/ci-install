@@ -37,3 +37,7 @@ $ ~/lib/TeamCity/bin/maintainDB.sh restore -A ~/.BuildServer -F ~/backup_2021051
 $ rm backup_20210514_084544.zip
 $ ~/lib/TeamCity/bin/runAll.sh start
 Under Agents, disable disconnected agents created by backing up and restoring
+
+Set up TeamCity to start when EC2 instance starts:
+# systemctl enable teamcity
+# systemctl start teamcity
