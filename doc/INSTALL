@@ -1,10 +1,16 @@
+Create database:
+Create RDS instance ci-database
+Edit ci-database security group
+Remove inbound rule allowing mysql connection from browser IP range
+Add inbound rule allowing mysql connection from ci internal IP range
+  TODO use a role which identifies the EC2 instance rather than the CIDR block containing its IP
+
 Create and configure instance:
 Create EC2 instance ci
 Create Elastic IP and associate
 Create A record for ci.schweisguth.org resolving to Elastic IP
 In this repo:
-Copy the previous installation of TeamCity's .BuildServer/config/database.properties to files/ec2-user/lib/TeamCity-config and update as necessary
-Copy lib/TeamCity-config/*.yml from the previous installation to this repo
+Update files in files/ec2-user/lib/TeamCity-config, including .env
 $ bin/push-to-ec2-instance
 $ ssh ci sudo reboot # to pick up time zone change 
 
@@ -22,15 +28,8 @@ $ ~/lib/install-ruby
 ~/lib $ tar xf ../src/TeamCity-2020.2.4.tar.gz
 $ rm ../src/TeamCity-2020.2.4.tar.gz # it's quite large
 
-Create database:
-Create RDS instance ci-database
-Edit ci-database security group
-Remove inbound rule allowing mysql connection from browser IP range
-Add inbound rule allowing mysql connection from ci internal IP range
-  TODO use a role which identifies the EC2 instance rather than the CIDR block containing its IP
-$ mysql -hci-database.c6n3e1wakxyr.us-west-2.rds.amazonaws.com -uroot -p < lib/create-ci-databases.sql
-
 Restore TeamCity from backup:
+$ mysql -hci-database.hostname.region.rds.amazonaws.com -uroot -p < lib/create-ci-databases.sql
 $ md ~/.BuildServer
 Copy most recent backup from previous installation
 $ ~/lib/TeamCity/bin/maintainDB.sh restore -A ~/.BuildServer -F ~/backup_20210514_084544.zip -T ~/lib/TeamCity-config/database.properties
