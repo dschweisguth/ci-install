@@ -24,15 +24,15 @@ Install TeamCity and dependencies:
 /usr/local/src # mv geckodriver /usr/local/bin
 # /usr/local/lib/install-mysql-client
 $ ~/lib/install-ruby
-~/src $ wget https://download-cf.jetbrains.com/teamcity/TeamCity-2020.2.4.tar.gz
-~/lib $ tar xf ../src/TeamCity-2020.2.4.tar.gz
-$ rm ../src/TeamCity-2020.2.4.tar.gz # it's quite large
+~/src $ wget https://download-cf.jetbrains.com/teamcity/TeamCity-2024.7.3.tar.gz
+~/lib $ tar xf ../src/TeamCity-2024.7.3.tar.gz
+$ rm ../src/TeamCity-2024.7.3.tar.gz # it's quite large
 
 Restore TeamCity from backup:
-$ mysql -hci-database.hostname.region.rds.amazonaws.com -uroot -p < lib/create-ci-databases.sql
-$ md ~/.BuildServer
+~ $ mysql -hci-database.hostname.region.rds.amazonaws.com -uroot -p < lib/create-ci-databases.sql
+~ $ md .BuildServer
 Copy most recent backup from previous installation
-$ ~/lib/TeamCity/bin/maintainDB.sh restore -A ~/.BuildServer -F ~/backup_20210514_084544.zip -T ~/lib/TeamCity-config/database.properties
-$ rm backup_20210514_084544.zip
-$ ~/lib/TeamCity/bin/runAll.sh start
+~ $ lib/TeamCity/bin/maintainDB.sh restore -A .BuildServer -F backup_yyyymmdd_hhmmss.zip -T lib/TeamCity-config/database.properties
+~ $ rm backup_yyyymmdd_hhmmss.zip
+~ $ lib/TeamCity/bin/runAll.sh start
 Under Agents, disable disconnected agents created by backing up and restoring
